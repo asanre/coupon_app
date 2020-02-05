@@ -1,0 +1,2 @@
+include ':app', ':fakeserver'
+rootProject.name='couponApp'
