@@ -14,6 +14,7 @@ import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.netty.util.internal.logging.InternalLoggerFactory
 import io.netty.util.internal.logging.JdkLoggerFactory
+import java.util.*
 
 
 internal fun main() {
@@ -37,8 +38,41 @@ private fun Application.module() {
             call.respond(mapOf("message" to "Hello world $times"))
         }
 
-        get("/status") {
-            call.respond(HttpStatusCode.OK)
+        get("/coupons") {
+            call.respond(HttpStatusCode.OK, coupons)
         }
     }
 }
+
+private val coupons
+    get() = listOf(
+        Coupon(
+            id = UUID.randomUUID().toString(),
+            image = "",
+            expiredAt = 1,
+            conditions = "",
+            quantityLimit = 2,
+            productId = 2,
+            productName = "",
+            brand = "",
+            productDescription = "",
+            discountAmount = 23,
+            discountType = 1
+        )
+    )
+
+private data class Coupon(
+    val id: String,
+    val image: String,
+    val expiredAt: Int,
+    val conditions: String,
+    val quantityLimit: Int,
+
+    val productId: Int,
+    val productName: String,
+    val brand: String,
+    val productDescription: String,
+
+    val discountAmount: Int,
+    val discountType: Int
+)
