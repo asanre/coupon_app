@@ -13,4 +13,6 @@ val couponModule = module {
     single { get<Retrofit>().create(CouponApi::class.java) }
     single { CouponRepository(get()) as ICouponRepository }
 
+    single { CouponService(get()) }
+    viewModel { CouponViewModel(get()) }
 }
