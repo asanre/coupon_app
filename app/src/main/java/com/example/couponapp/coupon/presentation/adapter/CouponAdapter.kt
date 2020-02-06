@@ -31,6 +31,8 @@ class CouponAdapter(
         fun bind(item: Coupon) {
             itemView.setOnClickListener { onClicked(item) }
             itemView.productNameTv.text = item.product.name
+            itemView.expiredTv.text =
+                itemView.context.getString(R.string.coupon_expire_date, item.expiredAt)
             itemView.activateBtn.setOnClickListener { onActivateClicked(item) }
         }
     }
