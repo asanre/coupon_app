@@ -53,7 +53,7 @@ private val coupons
             conditions = "",
             quantityLimit = 2,
             productId = 2,
-            productName = "",
+            productName = "empanadas fritas",
             brand = "",
             productDescription = "",
             discountAmount = 23,
