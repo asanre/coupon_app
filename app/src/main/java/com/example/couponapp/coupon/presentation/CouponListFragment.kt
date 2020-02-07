@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.couponapp.R
 import com.example.couponapp.coupon.presentation.adapter.CouponAdapter
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_coupon_list.*
 import org.koin.android.ext.android.inject
 
@@ -31,6 +32,10 @@ class CouponListFragment : Fragment(R.layout.fragment_coupon_list) {
 
         couponViewModel.activeCouponCount.observe(viewLifecycleOwner, Observer {
             setTitle(getString(R.string.coupon_list_title, it))
+        })
+
+        couponViewModel.error.observe(viewLifecycleOwner, Observer {
+            view?.let { Snackbar.make(it, getString(R.string.error_get_coupons), Snackbar.LENGTH_LONG).show() }
         })
     }
 

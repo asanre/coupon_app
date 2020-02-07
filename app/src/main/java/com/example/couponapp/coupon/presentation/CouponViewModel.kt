@@ -14,7 +14,7 @@ class CouponViewModel(private val service: CouponService) : ViewModel() {
     private val _couponsState: MutableLiveData<List<Coupon>> = MutableLiveData()
     val state: LiveData<List<Coupon>> = _couponsState
 
-    val activeCouponCount: LiveData<Int> = Transformations.map(_couponsState, ::getActiveCouponCount)
+    val activeCouponCount: LiveData<Int> = _couponsState.transform(this::getActiveCouponCount)
 
     fun getCoupons() = viewModelScope.launch {
         runCatching {
@@ -32,4 +32,7 @@ class CouponViewModel(private val service: CouponService) : ViewModel() {
     }
 
     private fun getActiveCouponCount(data: List<Coupon>) = data.filter { it.isActive }.size
+
+    private fun <X, Y> LiveData<X>.transform(transform: (X) -> Y) =
+        Transformations.map(this) { transform(it) }
 }
