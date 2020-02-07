@@ -2,6 +2,7 @@ package com.example.couponapp.coupon.presentation
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.couponapp.R
@@ -14,17 +15,18 @@ class CouponListFragment : Fragment(R.layout.fragment_coupon_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val couponAdapter = CouponAdapter({
+        val couponAdapter = CouponAdapter(couponViewModel::onActiveStateChange) {
             print("on Item")
-        }, {
-            print("on activate")
-        })
-        couponRv.adapter = couponAdapter
+        }
 
+        couponRv.adapter = couponAdapter
+        observeState(couponAdapter)
+        couponViewModel.getCoupons()
+    }
+
+    private fun observeState(couponAdapter: CouponAdapter) {
         couponViewModel.state.observe(viewLifecycleOwner, Observer {
             couponAdapter.submitList(it)
         })
-
-        couponViewModel.getCoupons()
     }
 }

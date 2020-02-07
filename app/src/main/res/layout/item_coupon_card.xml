@@ -37,7 +37,7 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/expiredTv"
-            app:layout_constraintEnd_toStartOf="@id/activateBtn"
+            app:layout_constraintEnd_toStartOf="@id/cardCtaBtn"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/startGl"
             app:layout_constraintTop_toBottomOf="@+id/image"
@@ -54,13 +54,15 @@
             tools:text="@string/coupon_expire_date" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/activateBtn"
+            android:id="@+id/cardCtaBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
+            android:background="@drawable/coupon_cta_background_selector"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:text="@string/coupon_cta"
             android:textAllCaps="true"
-            android:textColor="@color/white"
+            android:textColor="@color/coupon_cta_text_color_selector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/endGl"
             app:layout_constraintTop_toBottomOf="@id/image" />

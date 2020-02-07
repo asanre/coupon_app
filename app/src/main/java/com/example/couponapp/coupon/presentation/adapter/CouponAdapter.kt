@@ -11,8 +11,8 @@ import com.example.couponapp.coupon.domain.Coupon
 import kotlinx.android.synthetic.main.item_coupon_card.view.*
 
 class CouponAdapter(
-    private val onClicked: (Coupon) -> Unit,
-    private val onActivateClicked: (Coupon) -> Unit
+    private val onActivateClicked: (Coupon) -> Unit,
+    private val onClicked: (Coupon) -> Unit
 ) :
     ListAdapter<Coupon, CouponAdapter.ItemViewHolder>(CouponDiffUtil()) {
 
@@ -29,11 +29,27 @@ class CouponAdapter(
 
     inner class ItemViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         fun bind(item: Coupon) {
-            itemView.setOnClickListener { onClicked(item) }
+            bindListeners(item)
+            handleCardButtonState(item.isActive)
+            setTitleAndSubtitle(item)
+        }
+
+        private fun setTitleAndSubtitle(item: Coupon) {
             itemView.productNameTv.text = item.product.name
             itemView.expiredTv.text =
                 itemView.context.getString(R.string.coupon_expire_date, item.expiredAt)
-            itemView.activateBtn.setOnClickListener { onActivateClicked(item) }
+        }
+
+        private fun bindListeners(item: Coupon) {
+            itemView.cardCtaBtn.setOnClickListener { onActivateClicked(item) }
+            itemView.setOnClickListener { onClicked(item) }
+        }
+
+        private fun handleCardButtonState(isActive: Boolean) {
+            itemView.cardCtaBtn.isActivated = isActive
+            itemView.cardCtaBtn.text = itemView.context.getString(
+                if (isActive) R.string.coupon_active_cta else R.string.coupon_cta
+            )
         }
     }
 }
