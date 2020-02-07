@@ -3,4 +3,5 @@
     <string name="coupon_cta">Activar</string>
     <string name="coupon_active_cta">Desactivar</string>
     <string name="coupon_expire_date">%d días para finalizar</string>
+    <string name="coupon_list_title">%d cupones activados</string>
 </resources>

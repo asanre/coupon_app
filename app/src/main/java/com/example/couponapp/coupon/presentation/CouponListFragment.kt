@@ -28,5 +28,14 @@ class CouponListFragment : Fragment(R.layout.fragment_coupon_list) {
         couponViewModel.state.observe(viewLifecycleOwner, Observer {
             couponAdapter.submitList(it)
         })
+
+        couponViewModel.activeCouponCount.observe(viewLifecycleOwner, Observer {
+            setTitle(getString(R.string.coupon_list_title, it))
+        })
+    }
+
+
+    private fun Fragment.setTitle(value: String) {
+        (activity as? AppCompatActivity)?.supportActionBar?.title = value
     }
 }

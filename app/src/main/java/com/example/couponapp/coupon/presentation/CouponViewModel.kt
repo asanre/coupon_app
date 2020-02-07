@@ -8,11 +8,13 @@ import kotlinx.coroutines.launch
 
 class CouponViewModel(private val service: CouponService) : ViewModel() {
 
+    private val _error: MutableLiveData<CouponError> = MutableLiveData()
+    val error: LiveData<CouponError> = _error
+
     private val _couponsState: MutableLiveData<List<Coupon>> = MutableLiveData()
     val state: LiveData<List<Coupon>> = _couponsState
 
-    private val _error: MutableLiveData<CouponError> = MutableLiveData()
-    val error: LiveData<CouponError> = _error
+    val activeCouponCount: LiveData<Int> = Transformations.map(_couponsState, ::getActiveCouponCount)
 
     fun getCoupons() = viewModelScope.launch {
         runCatching {
@@ -28,4 +30,6 @@ class CouponViewModel(private val service: CouponService) : ViewModel() {
             else it
         }
     }
+
+    private fun getActiveCouponCount(data: List<Coupon>) = data.filter { it.isActive }.size
 }
