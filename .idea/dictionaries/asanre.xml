@@ -1,7 +1,11 @@
 <component name="ProjectDictionaryState">
   <dictionary name="asanre">
     <words>
+      <w>coroutine</w>
+      <w>coroutines</w>
       <w>koin</w>
+      <w>mockk</w>
+      <w>okhttp</w>
     </words>
   </dictionary>
 </component>

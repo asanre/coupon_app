@@ -24,7 +24,7 @@ class CouponViewModel(private val service: CouponService) : ViewModel() {
         }
     }
 
-    fun onActiveStateChange(coupon: Coupon) {
+    fun couponStateChange(coupon: Coupon) {
         _couponsState.value = _couponsState.value?.map {
             if (it == coupon) it.copy(isActive = !it.isActive)
             else it

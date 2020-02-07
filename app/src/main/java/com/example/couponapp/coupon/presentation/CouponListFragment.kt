@@ -16,7 +16,7 @@ class CouponListFragment : Fragment(R.layout.fragment_coupon_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val couponAdapter = CouponAdapter(couponViewModel::onActiveStateChange) {
+        val couponAdapter = CouponAdapter(couponViewModel::couponStateChange) {
             print("on Item")
         }
 
