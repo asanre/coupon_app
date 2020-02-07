@@ -4,10 +4,10 @@ import com.example.couponapp.coupon.couponModule
 import com.example.couponapp.coupon.data.network.CouponApi
 import com.example.couponapp.coupon.domain.CouponError
 import com.example.couponapp.di.koinNetworkModule
+import com.example.fakeserver.FakeServer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.koin.core.context.startKoin
@@ -35,10 +35,13 @@ class CouponRepositoryIntegrationTest : KoinTest {
     }
 
     @Test
-    fun `given getCoupons request should return a list of coupon with size equals 1`() =
+    fun `given a getCoupons request should return a list of coupons`() =
         runBlocking {
-            val result = sut.getCoupons()
-            assertEquals(1, result.size)
+            FakeServer.start()
+
+            assert(sut.getCoupons().isNotEmpty())
+
+            FakeServer.stop()
         }
 
     @Test(expected = CouponError.GetCouponsError::class)

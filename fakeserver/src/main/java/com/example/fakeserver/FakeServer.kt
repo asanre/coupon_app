@@ -12,9 +12,11 @@ import io.ktor.routing.Routing
 import io.ktor.routing.get
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import io.ktor.server.netty.NettyApplicationEngine
 import io.netty.util.internal.logging.InternalLoggerFactory
 import io.netty.util.internal.logging.JdkLoggerFactory
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 internal fun main() {
@@ -22,9 +24,16 @@ internal fun main() {
 }
 
 object FakeServer {
+    private var fakeServer: NettyApplicationEngine? = null
+
     fun start() {
         InternalLoggerFactory.setDefaultFactory(JdkLoggerFactory.INSTANCE)
-        embeddedServer(Netty, 8080, module = Application::module).start()
+        fakeServer = embeddedServer(Netty, 8080, module = Application::module)
+        fakeServer?.start()
+    }
+
+    fun stop() {
+        fakeServer?.stop(1000, 1500, TimeUnit.MILLISECONDS)
     }
 }
 
