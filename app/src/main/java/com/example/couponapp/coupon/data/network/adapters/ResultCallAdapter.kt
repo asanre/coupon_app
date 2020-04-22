@@ -25,33 +25,38 @@ abstract class CallDelegate<TIn, TOut>(
     abstract fun cloneImpl(): Call<TOut>
 }
 
-class ResultCall<T>(proxy: Call<T>) : CallDelegate<T, Result<T?>>(proxy) {
+open class ResultCall<T>(proxy: Call<T>) : CallDelegate<T, Result<T?>>(proxy) {
     override fun enqueueImpl(callback: Callback<Result<T?>>) = proxy.enqueue(object : Callback<T> {
-        override fun onResponse(call: Call<T>, response: Response<T>) {
-            val code = response.code()
-            val result = if (code in 200 until 300) {
-                val body = response.body()
-                Result.success(body)
-            } else {
-                Result.failure(Failure(code))
-            }
+        override fun onResponse(call: Call<T>, response: Response<T>) =
+            callback.onResponse(this@ResultCall, Response.success(onResponse(response)))
 
-            callback.onResponse(this@ResultCall, Response.success(result))
-        }
-
-        override fun onFailure(call: Call<T>, t: Throwable) {
-            val result = when (t) {
-                is IOException -> Result.failure<T>(NetworkError)
-                else -> Result.failure(Failure(cause = t))
-            }
-            callback.onResponse(this@ResultCall, Response.success(result))
-        }
+        override fun onFailure(call: Call<T>, t: Throwable) =
+            callback.onResponse(this@ResultCall, Response.success(onFailure(t)))
     })
 
     override fun cloneImpl() =
         ResultCall(proxy.clone())
+
+    open fun onFailure(t: Throwable): Result<T?> =
+        when (t) {
+            is IOException -> Result.failure(NetworkError)
+            else -> Result.failure(Failure(cause = t))
+        }
+
+
+    open fun onResponse(response: Response<T>): Result<T?> = response.let {
+        if (it.code() in 200 until 300) {
+            val body = response.body()
+            Result.success(body)
+        } else {
+            Result.failure(Failure(it.code()))
+        }
+    }
 }
 
+class CustomIt<T>(proxy: Call<T>) : ResultCall<T>(proxy) {
+
+}
 
 class ResultAdapterFactory private constructor() : CallAdapter.Factory() {
     companion object {
@@ -60,9 +65,7 @@ class ResultAdapterFactory private constructor() : CallAdapter.Factory() {
     }
 
     override fun get(
-        returnType: Type,
-        annotations: Array<Annotation>,
-        retrofit: Retrofit
+        returnType: Type, annotations: Array<Annotation>, retrofit: Retrofit
     ) = when (getRawType(returnType)) {
         Call::class.java -> {
             val callType = getParameterUpperBound(0, returnType as ParameterizedType)
