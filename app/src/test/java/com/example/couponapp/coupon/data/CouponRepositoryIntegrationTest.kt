@@ -35,14 +35,16 @@ class CouponRepositoryIntegrationTest : KoinTest {
     }
 
     @Test
-    fun `given a getCoupons request should return a list of coupons`() =
+    fun `given a getCoupons request should return a list of coupons`() {
         runBlocking {
             FakeServer.start()
+            val coupons = sut.getCoupons()
 
-            assert(sut.getCoupons().isNotEmpty())
+            assert(coupons.isNotEmpty())
 
             FakeServer.stop()
         }
+    }
 
     @Test(expected = CouponError.GetCouponsError::class)
     fun `given a getCoupons request with exception should return a GetCouponsError`() =
