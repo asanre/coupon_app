@@ -1,6 +1,7 @@
 package com.example.couponapp.di
 
 import com.example.couponapp.BuildConfig
+import com.example.couponapp.coupon.data.network.ResultAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
@@ -22,6 +23,7 @@ val koinNetworkModule = module {
             .Builder()
             .baseUrl(BuildConfig.API_URL)
             .client(get())
+            .addCallAdapterFactory(ResultAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

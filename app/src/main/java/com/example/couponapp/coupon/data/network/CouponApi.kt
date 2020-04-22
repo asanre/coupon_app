@@ -5,4 +5,7 @@ import retrofit2.http.GET
 interface CouponApi {
     @GET("/coupons")
     suspend fun getCoupons(): List<CouponNetworkDto>
+
+    @GET("/coupons")
+    suspend fun getCouponsResult(): Result<List<CouponNetworkDto>>
 }

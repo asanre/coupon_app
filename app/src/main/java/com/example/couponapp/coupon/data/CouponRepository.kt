@@ -10,8 +10,17 @@ class CouponRepository(
 ) : ICouponRepository {
 
     override suspend fun getCoupons(): List<Coupon> =
-        runCatching { api.getCoupons().map { it.toEntity() } }
+        getClassic()
+
+    private suspend fun getClassic(): List<Coupon> {
+        return runCatching { api.getCoupons().map { it.toEntity() } }
             .getOrElse {
                 throw CouponError.GetCouponsError
             }
+    }
+
+    private suspend fun couponResultAdapterExample(): List<Coupon> =
+        api.getCouponsResult()
+            .mapCatching { data -> data.map { it.toEntity() } }
+            .getOrElse { throw CouponError.GetCouponsError }
 }
