@@ -1,7 +1,7 @@
 package com.example.couponapp.coupon.data
 
 import com.example.couponapp.coupon.data.network.CouponApi
-import com.example.couponapp.coupon.data.network.adapters.Either
+import com.example.couponapp.common.data.adapters.Either
 import com.example.couponapp.coupon.domain.Coupon
 import com.example.couponapp.coupon.domain.CouponError
 import com.example.couponapp.coupon.domain.ICouponRepository

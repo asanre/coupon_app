@@ -1,7 +1,7 @@
 package com.example.couponapp.di
 
 import com.example.couponapp.BuildConfig
-import com.example.couponapp.coupon.data.network.adapters.CustomResponseAdapterFactory
+import com.example.couponapp.common.data.adapters.CustomResponseAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module

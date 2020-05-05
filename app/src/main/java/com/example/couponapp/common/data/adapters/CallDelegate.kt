@@ -1,4 +1,4 @@
-package com.example.couponapp.coupon.data.network.adapters
+package com.example.couponapp.common.data.adapters
 
 import okhttp3.Request
 import retrofit2.Call
